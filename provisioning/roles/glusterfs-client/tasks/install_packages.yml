@@ -1,0 +1,7 @@
+---
+# Task to install GlusterFS packages
+
+    - name: Install and start glusterfs server
+      yum: name={{ item }} state=installed
+      with_items:
+        - glusterfs-client

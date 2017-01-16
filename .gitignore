@@ -1,0 +1,10 @@
+*.iso
+*.box
+*.DS_Store
+*.vagrant
+*.retry
+*.vdi
+*.zip
+*.vdi
+builds/*
+Vagrantfile

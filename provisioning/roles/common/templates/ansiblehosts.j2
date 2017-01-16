@@ -1,0 +1,6 @@
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+10.42.0.42 ansible-tower tower
+{% for id in range(22,33) %}
+10.42.0.{{ id }} ansiblehost{{ id }}
+{% endfor %}
