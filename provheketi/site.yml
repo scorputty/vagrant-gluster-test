@@ -1,0 +1,21 @@
+- hosts: all
+  become: true
+  roles:
+    - common
+
+- hosts: glusterfs_group
+  strategy: linear
+  gather_facts: true
+  roles:
+    - glusterfs-server
+
+- hosts: glusterfs_client_group
+  strategy: free
+  gather_facts: true
+  roles:
+    - glusterfs-client
+
+- hosts: heketi
+  become: true
+  roles:
+    - heketi

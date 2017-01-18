@@ -1,0 +1,77 @@
+{
+    "clusters": [
+        {
+            "nodes": [
+                {
+                    "node": {
+                        "hostnames": {
+                            "manage": [
+                                "10.42.0.21"
+                            ],
+                            "storage": [
+                                "10.42.0.21"
+                            ]
+                        },
+                        "zone": 1
+                    },
+                    "devices": [
+                        "/dev/vdb",
+                        "/dev/vdc",
+                        "/dev/vdd",
+                        "/dev/vde",
+                        "/dev/vdf",
+                        "/dev/vdg",
+                        "/dev/vdh",
+                        "/dev/vdi"
+                    ]
+                },
+                {
+                    "node": {
+                        "hostnames": {
+                            "manage": [
+                                "10.42.0.22"
+                            ],
+                            "storage": [
+                                "10.42.0.22"
+                            ]
+                        },
+                        "zone": 2
+                    },
+                    "devices": [
+                        "/dev/vdb",
+                        "/dev/vdc",
+                        "/dev/vdd",
+                        "/dev/vde",
+                        "/dev/vdf",
+                        "/dev/vdg",
+                        "/dev/vdh",
+                        "/dev/vdi"
+                    ]
+                },
+                {
+                    "node": {
+                        "hostnames": {
+                            "manage": [
+                                "10.42.0.23"
+                            ],
+                            "storage": [
+                                "10.42.0.23"
+                            ]
+                        },
+                        "zone": 1
+                    },
+                    "devices": [
+                        "/dev/vdb",
+                        "/dev/vdc",
+                        "/dev/vdd",
+                        "/dev/vde",
+                        "/dev/vdf",
+                        "/dev/vdg",
+                        "/dev/vdh",
+                        "/dev/vdi"
+                    ]
+                }
+            ]
+        }
+    ]
+}

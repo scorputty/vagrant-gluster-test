@@ -1,3 +1,8 @@
+# Run different setup test by defining these variables
+# provsimple (simple ansible with glusterfs fuse clients)
+# provheketi (test installation with heketi)
+# provgdeploy (test installton with gdeploy)
+PROVTYPE = "provheketi"
 GLUSTERSERVER = 3
 GLUSTERCLIENT = 2
 
@@ -23,7 +28,7 @@ Vagrant.configure("2") do |config|
 
       if i == GLUSTERSERVER
         node.vm.provision :ansible do |ansible|
-          ansible.playbook = "provisioning/site.yml"
+          ansible.playbook = "#{PROVTYPE}/site.yml"
           ansible.sudo = true
           ansible.verbose = "v"
           ansible.host_key_checking = false
@@ -48,7 +53,7 @@ Vagrant.configure("2") do |config|
 
       if i == GLUSTERCLIENT
         node.vm.provision :ansible do |ansible|
-          ansible.playbook = "provisioning/site.yml"
+          ansible.playbook = "#{PROVTYPE}/site.yml"
           ansible.sudo = true
           ansible.verbose = "v"
           ansible.host_key_checking = false
