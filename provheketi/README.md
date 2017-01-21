@@ -1,16 +1,15 @@
-# Standalone Heketi Demo
+# Standalone Heketi Demo (edited for this project)
 
-This vagrant-ansible script creates a setup for Heketi to manage GlusterFS.  It creates four VMs (storage0,storage1,storage2,storage3) with eight 500 GB drives each.  The ansible script only installs gluster-server on each of the storage servers and then enables the gluster service.  It does not create or initialize any of the disks.  The disks will later be managed by Heketi.  The script also creates a client VM to demo mounting the volume created by Heketi.
+This vagrant-ansible script creates a setup for Heketi to manage GlusterFS.  It creates 3 server VMs (glusterserver1,glusterserver2,glusterserver3) with 20GB drives each server.  The ansible script only installs gluster-server on each of the storage servers and then enables the gluster service.  It does not create or initialize any of the disks.  The disks will later be managed by Heketi.  The script also creates a 2 client VMs (client1,client2) to demo mounting the volume created by Heketi.
 
 # Requisites
 
 * You will need Virtualbox or libvirt, Vagrant, and Ansible installed on your system.
-* Virtualbox must have a host network interface ip of 192.168.10.1
 
 # Setup
 
-* For Virtualbox type: `./up.sh`
-* For Libvirt type: `sudo ./up.sh --provider=libvirt`
+* For Virtualbox type: `vagrant up`
+* For Libvirt type: `vagrant up --provider=libvirt`
 
 * Now load the topology
 
@@ -34,3 +33,4 @@ $ heketi-cli volume create --size=10
 # More information
 * See the command line help screen by typing: `./heketi-cli -h`
 * Please see the [API](https://github.com/heketi/heketi/wiki/API) for REST commands.
+* Edited by scorputty to match my [vagrant-gluster-test](https://github.com/scorputty/vagrant-gluster-test/tree/master/provheketi) project.
