@@ -1,19 +1,19 @@
 ---
 # Task to create GlusterFS volume
 
-    - name: Ensure Gluster brick and mount directories exist.
-      file: "path={{ item }} state=directory mode=0775"
-      with_items:
-        - "{{ gluster_brick_dir }}"
+  - name: Ensure Gluster brick and mount directories exist.
+    file: "path={{ item }} state=directory mode=0775"
+    with_items:
+      - "{{ gluster_brick_dir }}"
 
-    # use the gluster_volume module
-    - name: Configure Gluster volume.
-      gluster_volume:
-        state: present
-        name: "{{ gluster_volume_name }}"
-        brick: "{{ gluster_brick_dir }}"
-        replicas: "{{ gluster_replicas }}"
-        cluster: "{{ groups.glusterfs_group | join(',') }}"
-        host: "{{ inventory_hostname }}"
-        force: yes
-      run_once: true
+  # use the gluster_volume module
+  - name: Configure Gluster volume.
+    gluster_volume:
+      state: present
+      name: "{{ gluster_volume_name }}"
+      brick: "{{ gluster_brick_dir }}"
+      replicas: "{{ gluster_replicas }}"
+      cluster: "{{ groups.glusterfs_server_group | join(',') }}"
+      host: "{{ inventory_hostname }}"
+      force: yes
+    run_once: true

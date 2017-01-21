@@ -1,21 +1,22 @@
 - hosts: all
   become: true
+  strategy: free
+  gather_facts: true
   roles:
     - common
+    - ntp
 
 - hosts: glusterfs_server_group
   strategy: linear
-  gather_facts: true
   roles:
     - glusterfs-server
 
 - hosts: glusterfs_client_group
   strategy: linear
-  gather_facts: true
   roles:
     - glusterfs-client
 
 - hosts: glusterserver1
-  become: true
+  strategy: linear
   roles:
     - heketi

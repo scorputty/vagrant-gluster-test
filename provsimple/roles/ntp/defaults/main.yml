@@ -1,4 +1,3 @@
----
 # Change to suit you situation/location
 timezone: Europe/Amsterdam
 ntp_server: [0.nl.pool.ntp.org, 1.nl.pool.ntp.org]

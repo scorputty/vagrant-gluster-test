@@ -5,7 +5,7 @@
 # Download the following plugins
 # hostmanager
 
-PROVTYPE = "provheketi"
+PROVTYPE = "provsimple"
 GLUSTERSERVER = 3
 GLUSTERCLIENT = 2
 
