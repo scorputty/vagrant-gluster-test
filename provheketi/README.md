@@ -33,4 +33,4 @@ $ heketi-cli volume create --size=10
 # More information
 * See the command line help screen by typing: `./heketi-cli -h`
 * Please see the [API](https://github.com/heketi/heketi/wiki/API) for REST commands.
-* Edited by scorputty to match my [vagrant-gluster-test](https://github.com/scorputty/vagrant-gluster-test/tree/master/provheketi) project.
+* Edited by scorputty to match my [vagrant-gluster-test](https://github.com/scorputty/vagrant-gluster-test) project.
