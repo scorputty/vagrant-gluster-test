@@ -3,19 +3,19 @@
   roles:
     - common
 
-- hosts: glusterfs_group
+- hosts: glusterfs_server_group
   strategy: linear
   gather_facts: true
   roles:
     - glusterfs-server
 
 - hosts: glusterfs_client_group
-  strategy: free
+  strategy: linear
   gather_facts: true
   roles:
     - glusterfs-client
 
-- hosts: heketi
+- hosts: glusterserver1
   become: true
   roles:
     - heketi

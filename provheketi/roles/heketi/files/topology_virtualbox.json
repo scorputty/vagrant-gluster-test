@@ -15,14 +15,7 @@
                         "zone": 1
                     },
                     "devices": [
-                        "/dev/sdb",
-                        "/dev/sdc",
-                        "/dev/sdd",
-                        "/dev/sde",
-                        "/dev/sdf",
-                        "/dev/sdg",
-                        "/dev/sdh",
-                        "/dev/sdi"
+                        "/dev/sdb"
                     ]
                 },
                 {
@@ -38,14 +31,7 @@
                         "zone": 2
                     },
                     "devices": [
-                        "/dev/sdb",
-                        "/dev/sdc",
-                        "/dev/sdd",
-                        "/dev/sde",
-                        "/dev/sdf",
-                        "/dev/sdg",
-                        "/dev/sdh",
-                        "/dev/sdi"
+                        "/dev/sdb"
                     ]
                 },
                 {
@@ -61,14 +47,7 @@
                         "zone": 1
                     },
                     "devices": [
-                        "/dev/sdb",
-                        "/dev/sdc",
-                        "/dev/sdd",
-                        "/dev/sde",
-                        "/dev/sdf",
-                        "/dev/sdg",
-                        "/dev/sdh",
-                        "/dev/sdi"
+                        "/dev/sdb"
                     ]
                 }
             ]

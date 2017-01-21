@@ -2,6 +2,9 @@
 # provsimple (simple ansible with glusterfs fuse clients)
 # provheketi (test installation with heketi)
 # provgdeploy (test installton with gdeploy)
+# Download the following plugins
+# hostmanager
+
 PROVTYPE = "provheketi"
 GLUSTERSERVER = 3
 GLUSTERCLIENT = 2
@@ -19,10 +22,10 @@ Vagrant.configure("2") do |config|
     config.vm.define "glusterserver#{i}" do |node|
       node.vm.box = "scorputty/centos"
       node.vm.hostname = "glusterserver#{i}"
-      node.vm.network :private_network, ip: "10.42.0.%d" % (21 + i )
+      node.vm.network :private_network, ip: "10.42.0.%d" % (20 + i )
       node.vm.provider "virtualbox" do |vb|
         vb.memory = "512"
-        vb.customize ["createhd",  "--filename", "2nd-disk-glusterserver#{i}", "--size", "256"]
+        vb.customize ["createhd",  "--filename", "2nd-disk-glusterserver#{i}", "--size", "20480"] # min size for heketi is 10g
         vb.customize ["storageattach", :id, "--storagectl", "IDE Controller", "--port", "1", "--device", "1", "--type", "hdd", "--medium", "2nd-disk-glusterserver#{i}.vdi"]
       end
 
@@ -32,9 +35,9 @@ Vagrant.configure("2") do |config|
           ansible.sudo = true
           ansible.verbose = "v"
           ansible.host_key_checking = false
-          ansible.limit = "glusterfs_group"
+          ansible.limit = "glusterfs_server_group"
           ansible.groups = {
-            "glusterfs_group" => ["glusterserver[1:#{GLUSTERSERVER}]"],
+            "glusterfs_server_group" => ["glusterserver[1:#{GLUSTERSERVER}]"],
             "glusterfs_client_group" => ["client[1:#{GLUSTERCLIENT}]"]
           }
         end
@@ -46,7 +49,7 @@ Vagrant.configure("2") do |config|
     config.vm.define "client#{i}" do |node|
       node.vm.box = "scorputty/centos"
       node.vm.hostname = "client#{i}"
-      node.vm.network :private_network, ip: "10.42.0.%d" % (24 + i )
+      node.vm.network :private_network, ip: "10.42.0.%d" % (23 + i )
       node.vm.provider "virtualbox" do |vb|
         vb.memory = "512"
       end
@@ -59,7 +62,7 @@ Vagrant.configure("2") do |config|
           ansible.host_key_checking = false
           ansible.limit = "glusterfs_client_group"
           ansible.groups = {
-            "glusterfs_group"          => ["glusterserver[1:#{GLUSTERSERVER}]"],
+            "glusterfs_server_group" => ["glusterserver[1:#{GLUSTERSERVER}]"],
             "glusterfs_client_group" => ["client[1:#{GLUSTERCLIENT}]"]
           }
         end
