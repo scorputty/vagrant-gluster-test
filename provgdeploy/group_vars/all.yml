@@ -1,0 +1,22 @@
+# these variables override all others
+
+# timezone and ntp servers
+# Change to suit you situation/location
+timezone: Europe/Amsterdam
+ntp_server: [0.nl.pool.ntp.org, 1.nl.pool.ntp.org]
+
+# defaults file for glusterfs-server
+
+gluster_package_version: '38'
+gluster_filesystem: "xfs"
+gluster_brick_dir: "/glusterfs/brick1"
+gluster_volume_name: "tri-repvol01"
+gluster_replicas: "3"
+
+# defaults file for glusterfs-clients
+
+gluster_server_name: "glusterserver1"
+gluster_share_dir: "/glusterfs/share"
+gluster_share_user: "vagrant"
+gluster_share_group: "root"
+gluster_share_perm: "750"

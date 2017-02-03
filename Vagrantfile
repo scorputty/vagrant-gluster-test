@@ -5,7 +5,7 @@
 # Download the following plugins
 # hostmanager
 
-PROVTYPE = "provsimple"
+PROVTYPE = "provgdeploy"
 GLUSTERSERVER = 3
 GLUSTERCLIENT = 2
 

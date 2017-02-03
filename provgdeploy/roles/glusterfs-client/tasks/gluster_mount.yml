@@ -1,0 +1,21 @@
+---
+# Mount operations, check or create mountpoint, mount the remote share
+
+    - name: Ensure Gluster share mount directory exist.
+      file:
+        path={{ item }}
+        state=directory
+        owner={{ gluster_share_user }}
+        group={{ gluster_share_group }}
+        mode={{ gluster_share_perm }}
+      with_items:
+        - "{{ gluster_share_dir }}"
+
+
+    - name: Mount glusterfs share
+      mount:
+        name: "{{ gluster_share_dir }}"
+        src: "{{ gluster_server_name }}:/{{ gluster_volume_name }}"
+        fstype: glusterfs
+        opts: "defaults,_netdev"
+        state: mounted

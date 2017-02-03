@@ -1,0 +1,18 @@
+---
+# Task to install GlusterFS packages
+
+  - name: install and start glusterfs server
+    yum: name={{ item }} state=installed
+    with_items:
+      - xfsprogs
+      - glusterfs-server
+      - glusterfs-client
+    notify:
+      - restart glusterd
+
+  - service: name=glusterd state=started enabled=yes
+
+  - name: install gdeploy from remote repos
+    yum:
+      name: https://download.gluster.org/pub/gluster/gdeploy/LATEST/CentOS7/gdeploy-2.0.1-9.noarch.rpm
+      state: present
