@@ -7,10 +7,18 @@
       - xfsprogs
       - glusterfs-server
       - glusterfs-client
+      - glusterfs-ganesha
+      - nfs-ganesha
+      - python-pip
     notify:
       - restart glusterd
 
   - service: name=glusterd state=started enabled=yes
+
+  - name: install pip modules
+    pip:
+      state: latest
+      name: pexpect
 
   - name: install gdeploy from remote repos
     yum:

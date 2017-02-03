@@ -2,6 +2,6 @@
 # tasks file for glusterfs-server
 
   - include: install_packages.yml
-  # - include: gluster_disks.yml
-  # - include: setup_firewall.yml
-  # - include: configure_volumes.yml
+  - include: gluster_disks.yml
+  - include: setup_keys.yml
+  # - include: setup_ganesha.yml

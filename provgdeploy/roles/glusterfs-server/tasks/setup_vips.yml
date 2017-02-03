@@ -1,0 +1,8 @@
+---
+  - nmcli:
+    conn_name: enp0s8_vip
+    ifname: enp0s8:0
+    type: ethernet
+    ip4: 192.0.2.100/24
+    gw4: 192.0.2.1
+    state: present
