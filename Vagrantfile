@@ -25,7 +25,9 @@ Vagrant.configure("2") do |config|
       node.vm.network :private_network, ip: "10.42.0.%d" % (20 + i )
       node.vm.provider "virtualbox" do |vb|
         vb.memory = "512"
-        vb.customize ["createhd",  "--filename", "2nd-disk-glusterserver#{i}", "--size", "20480"] # min size for heketi is 10g
+        unless File.exists?("2nd-disk-glusterserver#{i}.vdi")
+          vb.customize ["createhd",  "--filename", "2nd-disk-glusterserver#{i}", "--size", "20480"] # min size for heketi is 10g
+        end
         vb.customize ["storageattach", :id, "--storagectl", "IDE Controller", "--port", "1", "--device", "1", "--type", "hdd", "--medium", "2nd-disk-glusterserver#{i}.vdi"]
       end
 
