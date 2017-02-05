@@ -17,7 +17,6 @@ Vagrant.configure("2") do |config|
     v.linked_clone = true
   end
 
-
   (1..GLUSTERSERVER).each do |i|
     config.vm.define "glusterserver#{i}" do |node|
       node.vm.box = "scorputty/centos"
@@ -73,3 +72,6 @@ Vagrant.configure("2") do |config|
   end
 
 end
+
+# Run from cli like this:
+# ansible-playbook --user=vagrant --become -i .vagrant/provisioners/ansible/inventory/vagrant_ansible_inventory provgdeploy/site.yml --tags setup-firewall

@@ -2,6 +2,19 @@
 # tasks file for glusterfs-server
 
   - include: install_packages.yml
-  - include: gluster_disks.yml
+    tags: install-packages
+  - include: setup_vips.yml
+    tags: setup-vips
+  - include: setup_firewall.yml
+    tags: setup-firewall
   - include: setup_keys.yml
-  # - include: setup_ganesha.yml
+    tags: setup-keys
+  - include: setup_ganesha.yml
+    run_once: true
+    tags: setup-ganesha
+
+  # Enable SELinux
+  - selinux:
+      policy: targeted
+      state: enforcing
+    tags: selinux-enforcing

@@ -1,5 +1,5 @@
 # file: roles/common/tasks/main.yml
-- name: install repositories
+- name: install repositories and prereqs
   yum: name={{ item }} state=present
   with_items:
     - epel-release
@@ -8,3 +8,6 @@
 - name: dump all vars to /root/ansible.allvars
   action: template src=templates/dumpall.j2 dest=/root/ansible.allvars
   tags: dump-vars
+
+- name: disable selinux
+  selinux: state=disabled

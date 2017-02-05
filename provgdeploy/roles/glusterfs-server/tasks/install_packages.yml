@@ -1,14 +1,14 @@
 ---
 # Task to install GlusterFS packages
 
-  - name: install and start glusterfs server
+  - name: install and start glusterfs server packages
     yum: name={{ item }} state=installed
     with_items:
       - xfsprogs
       - glusterfs-server
       - glusterfs-client
-      - glusterfs-ganesha
-      - nfs-ganesha
+      # - glusterfs-ganesha
+      # - nfs-ganesha
       - python-pip
     notify:
       - restart glusterd

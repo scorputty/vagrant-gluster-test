@@ -1,8 +1,39 @@
 ---
-  - nmcli:
-    conn_name: enp0s8_vip
-    ifname: enp0s8:0
-    type: ethernet
-    ip4: 192.0.2.100/24
-    gw4: 192.0.2.1
-    state: present
+
+  - name: perform check for "{{ ifname_vip }}"
+    stat: path=/etc/sysconfig/network-scripts/ifcfg-{{ ifname_vip }}
+    register: file
+    ignore_errors: true
+
+  - name: copy ifcfg-{{ ifname_main }} to ifcfg-{{ ifname_vip }}
+    copy:
+      remote_src=true
+      src=/etc/sysconfig/network-scripts/ifcfg-{{ ifname_main }}
+      dest=/etc/sysconfig/network-scripts/ifcfg-{{ ifname_vip }}
+    when: not file.stat.exists
+
+  - name: replace interface in "{{ ifname_vip }}"
+    replace:
+      dest: "/etc/sysconfig/network-scripts/ifcfg-{{ ifname_vip }}"
+      regexp: '{{ ifname_main }}$'
+      replace: '{{ ifname_vip }}'
+
+  - name: replace ip in "{{ ifname_vip }}"
+    replace:
+      dest: "/etc/sysconfig/network-scripts/ifcfg-{{ ifname_vip }}"
+      regexp: "10.42.0.2"
+      replace: "10.42.0.3"
+
+  - name: add VIP mappings to /etc/hosts
+    blockinfile:
+      dest: /etc/hosts
+      block: |
+        {{ item.ip }} {{ item.name }}
+      marker: "# {mark} ANSIBLE MANAGED BLOCK {{ item.name }}"
+    with_items:
+      - { name: glusterserver1vip, ip: "{{ glusterserver1_vip }}" }
+      - { name: glusterserver2vip, ip: "{{ glusterserver2_vip }}" }
+      - { name: glusterserver3vip, ip: "{{ glusterserver3_vip }}" }
+
+  - name: bring VIP up
+    command: ifup "{{ ifname_vip }}"
