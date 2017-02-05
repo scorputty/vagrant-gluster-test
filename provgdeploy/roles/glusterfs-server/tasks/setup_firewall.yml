@@ -1,4 +1,17 @@
 ---
 # Task to setup firewall (should be restricted in the future release)
-  - name: firewalld permit GlusterFS daemon
-    service: name=firewalld state=started enabled=yes
+  - name: Start firewalld if not already started
+    service: name=firewalld state=started
+
+  - name: Add/Delete services to firewalld rules
+    firewalld: service={{ item }} permanent="{{ firewall_permanent }}" state="{{ firewall_state }}"
+               zone="{{ firewall_zone }}"
+    with_items: "{{ firewall_services }}"
+
+  - name: Open/Close firewalld ports
+    firewalld: port={{ item }} permanent="{{ firewall_permanent }}" state="{{ firewall_state }}"
+               zone="{{ firewall_zone }}"
+    with_items: "{{ firewall_ports }}"
+
+  - name: Reloads the firewall
+    shell: firewall-cmd --reload

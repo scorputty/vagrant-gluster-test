@@ -1,15 +1,18 @@
 ---
 # Task to install GlusterFS packages
 
-  - name: install and start glusterfs server packages
+  - name: install and start glusterfs server prereq packages
     yum: name={{ item }} state=installed
     with_items:
       - xfsprogs
+      - corosync
+      - pacemaker
+      - libntirpc
+      - pcs
+      - python-pip
       - glusterfs-server
       - glusterfs-client
-      # - glusterfs-ganesha
-      # - nfs-ganesha
-      - python-pip
+      - glusterfs-ganesha
     notify:
       - restart glusterd
 

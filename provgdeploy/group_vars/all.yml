@@ -28,3 +28,11 @@ gluster_share_dir: "/glusterfs/share"
 gluster_share_user: "vagrant"
 gluster_share_group: "root"
 gluster_share_perm: "750"
+
+# [firewalld]
+firewall_state: "enabled"
+firewall_action: "add"
+firewall_ports: [ 111/tcp, 2049/tcp, 54321/tcp, 5900/tcp, 5900-6923/tcp, 5666/tcp, 16514/tcp, 662/tcp, 662/udp ]
+firewall_services: [ glusterfs, nfs, rpc-bind, high-availability, mountd ]
+firewall_permanent: "true"
+firewall_zone: "public"

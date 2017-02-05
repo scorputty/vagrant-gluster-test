@@ -14,7 +14,12 @@
     tags: setup-ganesha
 
   # Enable SELinux
+  # - selinux:
+  #     policy: targeted
+  #     state: enforcing
+  #   tags: selinux-enforcing
+
+  # Disable SELinux
   - selinux:
-      policy: targeted
-      state: enforcing
-    tags: selinux-enforcing
+      state: disabled
+    tags: selinux-disabled
