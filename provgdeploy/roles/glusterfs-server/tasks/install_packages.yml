@@ -5,14 +5,16 @@
     yum: name={{ item }} state=installed
     with_items:
       - xfsprogs
-      - corosync
-      - pacemaker
-      - libntirpc
-      - pcs
       - python-pip
       - glusterfs-server
       - glusterfs-client
       - glusterfs-ganesha
+      - nfs-ganesha
+      - jemalloc
+      - corosync
+      - pacemaker
+      - libntirpc
+      - pcs
     notify:
       - restart glusterd
 

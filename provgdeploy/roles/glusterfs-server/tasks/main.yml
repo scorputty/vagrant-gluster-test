@@ -5,21 +5,12 @@
     tags: install-packages
   - include: setup_vips.yml
     tags: setup-vips
-  - include: setup_firewall.yml
-    tags: setup-firewall
+  # - include: setup_firewall.yml
+  #   tags: setup-firewall
+  - include: disable_firewall.yml
+    tags: stop-firewall
   - include: setup_keys.yml
     tags: setup-keys
   - include: setup_ganesha.yml
     run_once: true
     tags: setup-ganesha
-
-  # Enable SELinux
-  # - selinux:
-  #     policy: targeted
-  #     state: enforcing
-  #   tags: selinux-enforcing
-
-  # Disable SELinux
-  - selinux:
-      state: disabled
-    tags: selinux-disabled

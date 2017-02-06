@@ -23,4 +23,14 @@ vagrant up --no-provision
 vagrant --provision
 ```
 Note:
-gdeploy will also be a option soon
+gdeploy ganasha is not yet working
+```
+TASK [Report NFS Ganesha status (If any errors)] *******************************
+ok: [glusterserver1] => {
+    "msg": "Error: cluster is not currently running on this node"
+}
+```
+pcs cluster will not create but works manually: (I'm still troubleshooting this...)
+```
+pcs cluster setup --start --name ganesha-ha-360 glusterserver1 glusterserver2 glusterserver3
+```
