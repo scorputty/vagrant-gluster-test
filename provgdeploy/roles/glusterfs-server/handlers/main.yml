@@ -1,0 +1,5 @@
+---
+# handlers file for glusterfs-server
+
+- name: restart glusterd
+  service: name=glusterd state=restarted

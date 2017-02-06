@@ -1,0 +1,20 @@
+---
+
+  - name: upload gdeploy config files
+    synchronize:
+      src: "{{ item }}"
+      dest: "/root/"
+    with_items:
+      - sample.conf
+      - ganesha.conf
+      - destroy-ganesha.conf
+      - remove-volume.conf
+
+  - name: check if sample.conf is found
+    stat:
+      path: /root/sample.conf
+    register: sample_conf
+
+  - name: running gdeploy sample.conf
+    command: gdeploy -c /root/sample.conf
+    when: sample_conf.stat.exists

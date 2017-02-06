@@ -1,0 +1,4 @@
+---
+# Task to setup firewall (should be restricted in the future release)
+  - name: stop and disable firewalld
+    service: name=firewalld state=stopped enabled=off

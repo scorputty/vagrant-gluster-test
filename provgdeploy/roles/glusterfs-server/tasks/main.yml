@@ -1,0 +1,16 @@
+---
+# tasks file for glusterfs-server
+
+  - include: install_packages.yml
+    tags: install-packages
+  - include: setup_vips.yml
+    tags: setup-vips
+  # - include: setup_firewall.yml
+  #   tags: setup-firewall
+  - include: disable_firewall.yml
+    tags: stop-firewall
+  - include: setup_keys.yml
+    tags: setup-keys
+  - include: setup_ganesha.yml
+    run_once: true
+    tags: setup-ganesha

@@ -1,0 +1,40 @@
+---
+
+  - stat: path=/root/.ssh/id_rsa
+    register: root_key
+
+  - name: setting up root key for gdeploy
+    command: ssh-keygen -b 2048 -t rsa -f /root/.ssh/id_rsa -q -N ""
+    when: root_key.stat.exists == false
+
+  - name: fetch all public ssh keys
+    command: cat ~/.ssh/id_rsa.pub
+    register: ssh_keys
+
+  - name: check keys
+    debug: msg="{{ ssh_keys.stdout }}"
+
+  - name: deploy keys on all servers
+    authorized_key: user=root key="{{ item[0] }}"
+    delegate_to: "{{ item[1] }}"
+    with_nested:
+      - "{{ ssh_keys.stdout }}"
+      - "{{ groups['glusterfs_server_group'] }}"
+
+  - name: Check if the known hosts file exists
+    file: "path={{ known_hosts_file }} state=file"
+    # Save the task output/report/log to a register
+    register: file_check
+    # We ignore errors here because we'll handle them in the next task
+    ignore_errors: true
+
+  - name: Create the known hosts file when not found
+    file: "path={{ known_hosts_file }} state=touch"
+    # Use Jinja2 template filters to check if the field 'failed' exists
+    when: file_check | failed
+
+  - name: add servers to known_hosts
+    shell: "ssh-keyscan -t rsa {{ item }} >> {{ known_hosts_file }}"
+    with_items:
+      - "{{ groups['glusterfs_server_group'] }}"
+    when: file_check | failed
