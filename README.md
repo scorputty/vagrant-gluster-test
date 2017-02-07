@@ -30,7 +30,8 @@ ok: [glusterserver1] => {
     "msg": "Error: cluster is not currently running on this node"
 }
 ```
-pcs cluster will not create but works manually: (I'm still troubleshooting this...)
+pcs cluster will not start but it kinda works manually (I'm still troubleshooting this...)
 ```
-pcs cluster setup --start --name ganesha-ha-360 glusterserver1 glusterserver2 glusterserver3
+gluster v set ganesha ganesha.enable off
+/usr/libexec/ganesha/ganesha-ha.sh --setup /var/run/gluster/shared_storage/nfs-ganesha
 ```
