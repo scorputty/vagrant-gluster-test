@@ -16,7 +16,7 @@ This will spin up 3 gluster ganesha servers with each one extra disk and 2 clien
 
 - Checkout the [Standalone Heketi Demo README.md](https://github.com/scorputty/vagrant-gluster-test/blob/master/provheketi/README.md) for more info.
 
-- `provsimple` will install and configure and mount the share on the clients.
+- `provsimple` will install and configure standard gluster and mount the share on the clients.
 
 If you only want to spin up the nodes you can run this
 ```
