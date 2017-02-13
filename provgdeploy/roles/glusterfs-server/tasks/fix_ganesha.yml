@@ -5,25 +5,6 @@
     args:
       warn: no
 
-  - name: fixing ganesha configs
-    blockinfile:
-      dest: "{{ ha_base_dir }}/ganesha.conf"
-      backup: yes
-      block: |
-        NFS_Core_Param {
-              #Use supplied name other tha IP In NSM operations
-              NSM_Use_Caller_Name = true;
-              #Copy lock states into "/var/lib/nfs/ganesha" dir
-              Clustered = false;
-              #By default port number '2049' is used for NFS service.
-              #Configure ports for MNT, NLM, RQuota services.
-              #The ports chosen here are from '/etc/sysconfig/nfs'
-              MNT_Port = 20048;
-              NLM_Port = 32803;
-              Rquota_Port = 875;
-        }
-    run_once: true
-
   - name: copy ganesha.conf to config directory on shared volume
     copy:
       remote_src: true
@@ -40,23 +21,28 @@
       owner: root
     ignore_errors: yes
 
-  - name: unexport nfs shared
-    command: gluster volume set "{{ volname }}" ganesha.enable off --mode=script
+  - name: nfs-ganesha disable
+    command: gluster nfs-ganesha disable --mode=script
+    run_once: true
     ignore_errors: yes
 
   - name: Pause for 5 seconds (takes a while to disable NFS)
     pause: seconds=5
 
-  - name: run ganesha-ha.sh
-    command: /usr/libexec/ganesha/ganesha-ha.sh --setup /var/run/gluster/shared_storage/nfs-ganesha
+  - name: running gdeploy setup-ganesha.conf
+    command: gdeploy -c /root/setup-ganesha.conf
+    register: gdeploy
+    run_once: true
 
-  - name: Pause for 15 seconds (takes a while to enable NFS Ganesha)
-    pause: seconds=15
+  - name: check gedploy output
+    debug: msg="{{ gdeploy.stdout }}"
+    run_once: true
 
   - name: check NFS Ganesha status
     shell: /usr/libexec/ganesha/ganesha-ha.sh --status "{{ ha_base_dir }}" | \
            grep 'Cluster HA Status'
     register: result
+    run_once: true
     ignore_errors: yes
 
   - name: report NFS Ganesha status

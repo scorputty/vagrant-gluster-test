@@ -13,6 +13,24 @@
       replace: 'MOUNTD_PORT'
     tags: set-nfs-config
 
+  - name: fixing ganesha configs
+    blockinfile:
+      dest: "/etc/ganesha/ganesha.conf"
+      backup: yes
+      block: |
+         NFS_Core_Param {
+               #Use supplied name other than IP In NSM operations
+               NSM_Use_Caller_Name = true;
+               #Copy lock states into "/var/lib/nfs/ganesha" dir
+               Clustered = false;
+               #By default port number '2049' is used for NFS service.
+               #Configure ports for MNT, NLM, RQuota services.
+               #The ports chosen here are from '/etc/sysconfig/nfs'
+               MNT_Port = 20048;
+               NLM_Port = 32803;
+               Rquota_Port = 875;
+         }
+
   - name: start or reload ganesha related services
     service:
       name: "{{ item }}"
@@ -22,6 +40,5 @@
       - rpc-statd
       - glusterd
       - pcsd
-      - nfs-ganesha
     register: start
     tags: ganesha-services
