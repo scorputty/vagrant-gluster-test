@@ -9,6 +9,8 @@
       - fence-agents-all
       - glusterfs-ganesha
       - nfs-ganesha
+      - sysstat
+      - htop
     notify:
       - restart glusterd
 
