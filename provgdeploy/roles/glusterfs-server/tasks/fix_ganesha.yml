@@ -38,6 +38,14 @@
     debug: msg="{{ gdeploy.stdout }}"
     run_once: true
 
+  - name: rerun setup scrip
+    command: /usr/libexec/ganesha/ganesha-ha.sh --setup "{{ ha_base_dir }}"
+    run_once: true
+    ignore_errors: yes
+
+  - name: Pause for 5 seconds
+    pause: seconds=5
+
   - name: check NFS Ganesha status
     shell: /usr/libexec/ganesha/ganesha-ha.sh --status "{{ ha_base_dir }}" | \
            grep 'Cluster HA Status'
