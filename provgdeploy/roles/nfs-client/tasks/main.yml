@@ -1,7 +1,7 @@
 ---
 # tasks file for nfs ganesha clients
 
-- include: install_packages.yml
-  tags: install-packages
+- include: install_client_packages.yml
+  tags: install-client-packages
 - include: nfs_ganesha_mount.yml
   tags: nfs-ganesha-mount
