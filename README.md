@@ -4,7 +4,7 @@ Vagrant test environment for GlusterFS
 ## Howto
 Set the options in the Vagrantfile to suit your needs:
 ```yaml
-PROVTYPE = "provheketi"
+PROVTYPE = "provgdeploy"
 GLUSTERSERVER = 3
 GLUSTERCLIENT = 2
 ```
@@ -12,7 +12,8 @@ Now run vagrant
 ```
 vagrant up
 ```
-This will spin up 3 gluster servers with each one extra disk and 2 clients. You can then test/play with heketi.
+This will spin up 3 gluster ganesha servers with each one extra disk and 2 clients fully configured and mounted nfs share.
+
 - Checkout the [Standalone Heketi Demo README.md](https://github.com/scorputty/vagrant-gluster-test/blob/master/provheketi/README.md) for more info.
 
 - `provsimple` will install and configure and mount the share on the clients.
@@ -23,15 +24,22 @@ vagrant up --no-provision
 vagrant --provision
 ```
 Note:
-gdeploy ganasha is not working yet
+gdeploy ganasha is now working! (not yet pretty...)
 ```
-TASK [Report NFS Ganesha status (If any errors)] *******************************
-ok: [glusterserver1] => {
-    "msg": "Error: cluster is not currently running on this node"
-}
+- include: install_packages.yml
+  tags: install-packages
+- include: disable_firewall.yml
+  tags: stop-firewall
+- include: setup_keys.yml
+  tags: setup-keys
+- include: setup_keys.yml # Running this twice to be sure the keys are there
+  tags: setup-keys
+- include: prep_gdeploy.yml
+  tags: prep-gdeploy
+- include: setup_ganesha.yml
+  run_once: true
+  tags: setup-ganesha
+- include: fix_ganesha.yml
+  tags: fix-ganesha
 ```
-pcs cluster will not start but it kinda works manually (I'm still troubleshooting this...)
-```
-gluster v set ganesha ganesha.enable off
-/usr/libexec/ganesha/ganesha-ha.sh --setup /var/run/gluster/shared_storage/nfs-ganesha
-```
+Yes still very messy but it works...
