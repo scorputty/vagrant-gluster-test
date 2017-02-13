@@ -11,6 +11,8 @@
     tags: stop-firewall
   - include: setup_keys.yml
     tags: setup-keys
+  - include: setup_keys.yml # Running this twice to besure the keys are there
+    tags: setup-keys
   - include: prep_gdeploy.yml
     tags: prep-gdeploy
   - include: setup_ganesha.yml
