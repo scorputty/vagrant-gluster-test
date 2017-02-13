@@ -1,0 +1,24 @@
+---
+
+  - name: upload gdeploy config files
+    synchronize:
+      src: "{{ item }}"
+      dest: "/root/"
+    with_items:
+      - sample.conf
+      - setup-ganesha.conf
+      - destroy-ganesha.conf
+      - remove-volume.conf
+
+  - name: skip if ganesha-ha.conf is found
+    stat:
+      path: "{{ ha_base_dir }}/ganesha-ha.conf"
+    register: setup
+
+  - name: running gdeploy setup-ganesha.conf
+    command: gdeploy -c /root/setup-ganesha.conf
+    when: not setup.stat.exists
+    register: gdeploy
+
+  - name: check gedploy output
+    debug: msg="{{ gdeploy.stdout }}"

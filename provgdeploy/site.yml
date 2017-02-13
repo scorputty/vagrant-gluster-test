@@ -1,0 +1,17 @@
+- hosts: all
+  become: true
+  gather_facts: true
+  roles:
+    - common
+    - ntp
+
+- hosts: glusterfs_server_group
+  strategy: linear
+  roles:
+    - glusterfs-server
+  handlers:
+    - include: roles/glusterfs-server/handlers/main.yml
+
+- hosts: glusterfs_client_group
+  roles:
+    - nfs-client

@@ -1,0 +1,25 @@
+---
+# Task to install GlusterFS packages
+
+  - name: install and start glusterfs server prereq packages
+    yum: name={{ item }} state=latest
+    with_items:
+      - python-pip
+      - glusterfs-server
+      - fence-agents-all
+      - glusterfs-ganesha
+      - nfs-ganesha
+    notify:
+      - restart glusterd
+
+  - service: name=glusterd state=started enabled=yes
+
+  # - name: install pip modules
+  #   pip:
+  #     state: latest
+  #     name: pexpect
+
+  - name: install gdeploy from remote repos
+    yum:
+      name: https://download.gluster.org/pub/gluster/gdeploy/2.0.1-8/CentOS7/gdeploy-2.0.1-8.noarch.rpm
+      state: present

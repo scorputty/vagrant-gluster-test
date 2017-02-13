@@ -1,0 +1,10 @@
+---
+  - name: installing nfs client packages
+    yum: name={{ item }} state=latest
+    with_items:
+      - nfs-utils
+      - nfs4-acl-tools
+      - nfsometer
+      - nfstest
+      - htop
+      - sysstat

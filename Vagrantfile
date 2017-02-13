@@ -5,7 +5,7 @@
 # Download the following plugins
 # hostmanager
 
-PROVTYPE = "provsimple"
+PROVTYPE = "provgdeploy"
 GLUSTERSERVER = 3
 GLUSTERCLIENT = 2
 
@@ -16,7 +16,6 @@ Vagrant.configure("2") do |config|
   config.vm.provider "virtualbox" do |v|
     v.linked_clone = true
   end
-
 
   (1..GLUSTERSERVER).each do |i|
     config.vm.define "glusterserver#{i}" do |node|
@@ -73,3 +72,6 @@ Vagrant.configure("2") do |config|
   end
 
 end
+
+# Run from cli like this:
+# ansible-playbook --user=vagrant --become -i .vagrant/provisioners/ansible/inventory/vagrant_ansible_inventory provgdeploy/site.yml --tags setup-firewall

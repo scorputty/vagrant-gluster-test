@@ -1,0 +1,72 @@
+---
+
+  - name: make sure everything is mounted
+    command: mount -a
+    args:
+      warn: no
+
+  - name: copy ganesha.conf to config directory on shared volume
+    copy:
+      remote_src: true
+      src: "{{ ha_base_dir }}/ganesha.conf"
+      dest: /etc/ganesha/
+      owner: root
+    ignore_errors: yes
+
+  - name: copy ganesha-ha.conf to config directory on shared volume
+    copy:
+      remote_src: true
+      src: "{{ ha_base_dir }}/ganesha-ha.conf"
+      dest: /etc/ganesha/
+      owner: root
+    ignore_errors: yes
+
+  - name: nfs-ganesha disable
+    command: gluster nfs-ganesha disable --mode=script
+    run_once: true
+    ignore_errors: yes
+
+  - name: Pause for 5 seconds (takes a while to disable NFS)
+    pause: seconds=5
+
+  - name: running gdeploy setup-ganesha.conf
+    command: gdeploy -c /root/setup-ganesha.conf
+    register: gdeploy
+    run_once: true
+
+  - name: check gedploy output
+    debug: msg="{{ gdeploy.stdout }}"
+    run_once: true
+
+  - name: rerun setup scrip
+    command: /usr/libexec/ganesha/ganesha-ha.sh --setup "{{ ha_base_dir }}"
+    run_once: true
+    ignore_errors: yes
+
+  - name: Pause for 5 seconds
+    pause: seconds=5
+
+  - name: check NFS Ganesha status
+    shell: /usr/libexec/ganesha/ganesha-ha.sh --status "{{ ha_base_dir }}" | \
+           grep 'Cluster HA Status'
+    register: result
+    run_once: true
+    ignore_errors: yes
+
+  - name: report NFS Ganesha status
+    debug: msg={{ result.stdout }} verbosity=0
+    when: result.stderr == ""
+
+  - name: Rreport NFS Ganesha status (If any errors)
+    debug: msg={{ result.stderr }} verbosity=0
+    when: result.stderr != ""
+
+  - name: enable ganesha related services
+    systemd:
+      name: "{{ item }}"
+      enabled: yes
+    with_items:
+      - rpc-statd
+      - pacemaker
+    register: start
+    tags: ganesha-services

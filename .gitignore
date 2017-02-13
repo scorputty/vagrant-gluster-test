@@ -6,4 +6,5 @@
 *.vdi
 *.zip
 *.vdi
+temp.md
 builds/*

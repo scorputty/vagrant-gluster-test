@@ -23,4 +23,15 @@ vagrant up --no-provision
 vagrant --provision
 ```
 Note:
-gdeploy will also be a option soon
+gdeploy ganasha is not working yet
+```
+TASK [Report NFS Ganesha status (If any errors)] *******************************
+ok: [glusterserver1] => {
+    "msg": "Error: cluster is not currently running on this node"
+}
+```
+pcs cluster will not start but it kinda works manually (I'm still troubleshooting this...)
+```
+gluster v set ganesha ganesha.enable off
+/usr/libexec/ganesha/ganesha-ha.sh --setup /var/run/gluster/shared_storage/nfs-ganesha
+```
