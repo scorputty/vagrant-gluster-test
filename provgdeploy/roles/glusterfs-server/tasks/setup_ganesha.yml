@@ -6,15 +6,19 @@
       dest: "/root/"
     with_items:
       - sample.conf
-      - ganesha.conf
+      - setup-ganesha.conf
       - destroy-ganesha.conf
       - remove-volume.conf
 
-  - name: check if sample.conf is found
+  - name: check if setup-ganesha.conf is found
     stat:
-      path: /root/sample.conf
-    register: sample_conf
+      path: /root/setup-ganesha.conf
+    register: setup
 
-  - name: running gdeploy sample.conf
-    command: gdeploy -c /root/sample.conf
-    when: sample_conf.stat.exists
+  - name: running gdeploy setup-ganesha.conf
+    command: gdeploy -c /root/setup-ganesha.conf
+    register: gedeploy
+    when: setup.stat.exists
+
+  - name: check gedploy output
+    debug: msg="{{ gdeploy.stdout }}"

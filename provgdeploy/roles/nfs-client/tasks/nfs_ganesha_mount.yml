@@ -11,11 +11,10 @@
       with_items:
         - "{{ gluster_share_dir }}"
 
-
-    - name: Mount glusterfs share
+    - name: Mount nfs ganesha share
       mount:
         name: "{{ gluster_share_dir }}"
-        src: "{{ gluster_server_name }}:/{{ gluster_volume_name }}"
-        fstype: glusterfs
+        src: "{{ glusterserver1_vip }}:/{{ volname }}"
+        fstype: nfs
         opts: "defaults,_netdev"
         state: mounted

@@ -9,7 +9,7 @@
     action: template src=templates/dumpall.j2 dest=/root/ansible.allvars
     tags: dump-vars
 
-  # Enable SELinux
+  #  Enable SELinux
   # - selinux:
   #     policy: targeted
   #     state: enforcing

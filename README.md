@@ -23,7 +23,7 @@ vagrant up --no-provision
 vagrant --provision
 ```
 Note:
-gdeploy ganasha is not yet working
+gdeploy ganasha is not working yet
 ```
 TASK [Report NFS Ganesha status (If any errors)] *******************************
 ok: [glusterserver1] => {

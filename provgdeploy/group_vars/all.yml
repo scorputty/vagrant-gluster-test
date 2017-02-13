@@ -7,10 +7,6 @@ ntp_server: [0.nl.pool.ntp.org, 1.nl.pool.ntp.org]
 
 # defaults file for glusterfs-server
 gluster_package_version: '38'
-gluster_filesystem: "xfs"
-gluster_brick_dir: "/glusterfs/brick1"
-gluster_volume_name: "tri-repvol01"
-gluster_replicas: "3"
 
 # SSH keys
 known_hosts_file: "~/.ssh/known_hosts"
@@ -22,9 +18,17 @@ glusterserver3_vip: "10.42.0.33"
 ifname_main: "enp0s8"
 ifname_vip: "enp0s8:0"
 
+# Ganesha
+ha_base_dir: "/var/run/gluster/shared_storage/nfs-ganesha"
+# #Creating a high availability cluster and exporting the volume
+ha_name: "ganesha-ha-360"
+cluster_nodes: [ glusterserver1, glusterserver2, glusterserver3 ]
+vip: [ 10.42.0.31, 10.42.0.32, 10.42.0.33 ]
+volname: "ganesha"
+
 # defaults file for glusterfs-clients
-gluster_server_name: "glusterserver1"
-gluster_share_dir: "/glusterfs/share"
+gluster_server_name: "10.42.0.31"
+gluster_share_dir: "/nfs-ganesha/share"
 gluster_share_user: "vagrant"
 gluster_share_group: "root"
 gluster_share_perm: "750"

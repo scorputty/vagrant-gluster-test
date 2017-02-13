@@ -1,0 +1,27 @@
+---
+
+  - name: remove line first in /etc/hosts
+    lineinfile:
+      dest: /etc/hosts
+      state: absent
+      regexp: '^127.*.glusterserver.'
+
+  - name: set nfs config
+    replace:
+      dest: "/etc/sysconfig/nfs"
+      regexp: '#MOUNTD_PORT'
+      replace: 'MOUNTD_PORT'
+    tags: set-nfs-config
+
+  - name: start or reload ganesha related services
+    service:
+      name: "{{ item }}"
+      state: started
+      enabled: yes
+    with_items:
+      - rpc-statd
+      - glusterd
+      - pcsd
+      - nfs-ganesha
+    register: start
+    tags: ganesha-services

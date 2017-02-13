@@ -1,5 +1,0 @@
----
-# tasks file for glusterfs-server
-
-- include: install_packages.yml
-- include: gluster_mount.yml

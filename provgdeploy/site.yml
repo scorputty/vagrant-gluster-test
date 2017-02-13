@@ -11,7 +11,7 @@
     - glusterfs-server
   handlers:
     - include: roles/glusterfs-server/handlers/main.yml
-#
-# - hosts: glusterfs_client_group
-#   roles:
-#     - glusterfs-client
+
+- hosts: glusterfs_client_group
+  roles:
+    - nfs-client
