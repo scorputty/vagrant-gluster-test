@@ -4,12 +4,12 @@
     synchronize:
       src: "{{ item }}"
       dest: "/root/"
+    rsync_path: "sudo -u vagrant rsync"
     with_items:
       - sample.conf
       - setup-ganesha.conf
       - destroy-ganesha.conf
       - remove-volume.conf
-    rsync_path: "su -c rsync"
 
   - name: skip if ganesha-ha.conf is found
     stat:
