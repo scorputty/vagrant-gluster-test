@@ -9,7 +9,7 @@
       - setup-ganesha.conf
       - destroy-ganesha.conf
       - remove-volume.conf
-    delegate_to: "{{ glusterserver1 }}"
+    delegate_to: "{{ inventory_hostname }}"
 
   - name: skip if ganesha-ha.conf is found
     stat:
