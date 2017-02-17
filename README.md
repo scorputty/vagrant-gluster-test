@@ -43,3 +43,6 @@ gdeploy ganasha is now working! (not yet pretty...)
   tags: fix-ganesha
 ```
 Yes still very messy but it works...
+
+## Added provision via Ansible Tower.
+* more info follows soon

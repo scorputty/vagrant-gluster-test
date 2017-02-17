@@ -6,4 +6,5 @@
     - ntp
 
 - hosts: tower_server_group
+  roles:
     - tower-server

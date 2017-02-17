@@ -81,9 +81,9 @@ Vagrant.configure("2") do |config|
 
 
   (1..TOWERSERVER).each do |i|
-    config.vm.define "towerserver#{i}" do |node|
+    config.vm.define "ansible-tower" do |node|
       node.vm.box = "ansible-tower-repackage"
-      node.vm.hostname = "towerserver#{i}"
+      node.vm.hostname = "ansible-tower"
       node.vm.network :private_network, ip: "10.42.0.%d" % (41 + i )
       node.vm.provider "virtualbox" do |vb|
         vb.memory = "2048"
@@ -97,7 +97,7 @@ Vagrant.configure("2") do |config|
           ansible.host_key_checking = false
           ansible.limit = "tower_server_group"
           ansible.groups = {
-            "tower_server_group" => ["towerserver[1:#{TOWERSERVER}]"],
+            "tower_server_group" => ["ansible-tower"],
             "glusterfs_server_group" => ["glusterserver[1:#{GLUSTERSERVER}]"],
             "glusterfs_client_group" => ["client[1:#{GLUSTERCLIENT}]"]
           }
