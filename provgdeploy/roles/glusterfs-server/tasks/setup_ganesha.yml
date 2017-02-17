@@ -4,7 +4,6 @@
     synchronize:
       src: "{{ item }}"
       dest: "/root/"
-      rsync_path: "sudo -u vagrant rsync"
     with_items:
       - sample.conf
       - setup-ganesha.conf

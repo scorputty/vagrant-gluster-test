@@ -15,7 +15,13 @@
       insertafter=EOF
       line='{{ ansible_user }} ALL=(ALL) NOPASSWD: ALL'
       regexp='{{ ansible_user }} ALL=(ALL) NOPASSWD: ALL'
-      state=present"  
+      state=present"
+
+  # Example action to restart network service for interface eth0
+  - name: restart netowrk
+    service:
+      name: network
+      state: restarted
 
   #  Enable SELinux
   # - selinux:
@@ -24,6 +30,6 @@
   #   tags: selinux-enforcing
 
   # Disable SELinux
-  - selinux:
-      state: disabled
-    tags: selinux-disabled
+  # - selinux:
+  #     state: disabled
+  #   tags: selinux-disabled
