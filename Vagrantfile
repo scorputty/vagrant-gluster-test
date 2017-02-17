@@ -17,35 +17,8 @@ Vagrant.configure("2") do |config|
   config.ssh.insert_key = false
   config.hostmanager.enabled = true
 
-  # config.vm.provider "virtualbox" do |v|
-  #   v.linked_clone = true
-  # end
-
-
-  (1..TOWERSERVER).each do |i|
-    config.vm.define "towerserver#{i}" do |node|
-      node.vm.box = "ansible-tower-repackage"
-      node.vm.hostname = "towerserver#{i}"
-      node.vm.network :private_network, ip: "10.42.0.%d" % (41 + i )
-      node.vm.provider "virtualbox" do |vb|
-        vb.memory = "2048"
-      end
-
-      if i == TOWERSERVER
-        node.vm.provision :ansible do |ansible|
-          ansible.playbook = "#{PROVTYPE}/site.yml"
-          ansible.sudo = true
-          ansible.verbose = "v"
-          ansible.host_key_checking = false
-          ansible.limit = "tower_server_group"
-          ansible.groups = {
-            "tower_server_group" => ["towerserver[1:#{TOWERSERVER}]"],
-            "glusterfs_server_group" => ["glusterserver[1:#{GLUSTERSERVER}]"],
-            "glusterfs_client_group" => ["client[1:#{GLUSTERCLIENT}]"]
-          }
-        end
-      end
-    end
+  config.vm.provider "virtualbox" do |v|
+    v.linked_clone = true
   end
 
 
@@ -96,6 +69,33 @@ Vagrant.configure("2") do |config|
           ansible.verbose = "v"
           ansible.host_key_checking = false
           ansible.limit = "glusterfs_client_group"
+          ansible.groups = {
+            "tower_server_group" => ["towerserver[1:#{TOWERSERVER}]"],
+            "glusterfs_server_group" => ["glusterserver[1:#{GLUSTERSERVER}]"],
+            "glusterfs_client_group" => ["client[1:#{GLUSTERCLIENT}]"]
+          }
+        end
+      end
+    end
+  end
+
+
+  (1..TOWERSERVER).each do |i|
+    config.vm.define "towerserver#{i}" do |node|
+      node.vm.box = "ansible-tower-repackage"
+      node.vm.hostname = "towerserver#{i}"
+      node.vm.network :private_network, ip: "10.42.0.%d" % (41 + i )
+      node.vm.provider "virtualbox" do |vb|
+        vb.memory = "2048"
+      end
+
+      if i == TOWERSERVER
+        node.vm.provision :ansible do |ansible|
+          ansible.playbook = "#{PROVTYPE}/site.yml"
+          ansible.sudo = true
+          ansible.verbose = "v"
+          ansible.host_key_checking = false
+          ansible.limit = "tower_server_group"
           ansible.groups = {
             "tower_server_group" => ["towerserver[1:#{TOWERSERVER}]"],
             "glusterfs_server_group" => ["glusterserver[1:#{GLUSTERSERVER}]"],

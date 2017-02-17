@@ -14,7 +14,3 @@
   - selinux:
       state: disabled
     tags: selinux-disabled
-
-  - include: ansible_tower_user.yml
-    tags: ansible-tower-user
-    when: tower_server_group in group_names

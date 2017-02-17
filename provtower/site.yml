@@ -4,3 +4,6 @@
   roles:
     - common
     - ntp
+
+- hosts: tower_server_group
+    - tower-server

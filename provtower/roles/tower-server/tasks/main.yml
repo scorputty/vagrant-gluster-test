@@ -1,0 +1,4 @@
+# file: roles/tower-server/tasks/main.yml
+
+  - include: ansible_tower_user.yml
+    tags: ansible-tower-user

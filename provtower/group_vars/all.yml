@@ -4,6 +4,9 @@
 ansible_user: ansuser
 ansible_pass: anspass
 
+# SSH keys
+known_hosts_file: "/home/{{ ansible_user }}/.ssh/known_hosts"
+
 # timezone and ntp servers
 # Change to suit you situation/location
 timezone: Europe/Amsterdam

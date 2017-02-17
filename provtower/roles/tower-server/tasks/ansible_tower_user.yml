@@ -1,0 +1,54 @@
+---
+  # file: setup ansible tower user
+  - name: create ansible_user
+    command: useradd -m {{ ansible_user }} creates=/home/{{ ansible_user }}
+
+  - name: set user password
+    shell: usermod -p $(echo '{{ ansible_pass }}' | openssl passwd -1 -stdin) {{ ansible_user }}
+
+  - name: update sudoers file and validate
+    lineinfile: "dest=/etc/sudoers
+      insertafter=EOF
+      line='{{ ansible_user }} ALL=(ALL) NOPASSWD: ALL'
+      regexp='{{ ansible_user }} ALL=(ALL) NOPASSWD: ALL'
+      state=present"
+
+  - stat: path=/home/{{ ansible_user }}/.ssh/id_rsa
+    register: ssh_key
+
+  - name: setting up key for {{ ansible_user }}
+    become_user: "{{ ansible_user }}"
+    command: ssh-keygen -b 2048 -t rsa -f /home/{{ ansible_user }}/.ssh/id_rsa -q -N ""
+    when: ssh_key.stat.exists == false
+
+  - name: fetch all public ssh keys
+    command: cat /home/{{ ansible_user }}/.ssh/id_rsa.pub
+    register: ssh_keys
+
+  - name: check keys
+    debug: msg="{{ ssh_keys.stdout }}"
+
+  - name: deploy keys on all servers
+    authorized_key: user="{{ ansible_user }}" key="{{ item[0] }}"
+    delegate_to: "{{ item[1] }}"
+    with_nested:
+      - "{{ ssh_keys.stdout }}"
+      - "{{ groups['all'] }}"
+
+  - name: Check if the known hosts file exists
+    file: "path={{ known_hosts_file }} state=file"
+    # Save the task output/report/log to a register
+    register: file_check
+    # We ignore errors here because we'll handle them in the next task
+    ignore_errors: true
+
+  - name: Create the known hosts file when not found
+    file: "path={{ known_hosts_file }} state=touch"
+    # Use Jinja2 template filters to check if the field 'failed' exists
+    when: file_check | failed
+
+  - name: add servers to known_hosts
+    shell: "ssh-keyscan -t rsa {{ item }} >> {{ known_hosts_file }}"
+    with_items:
+      - "{{ groups['all'] }}"
+    when: file_check | failed
