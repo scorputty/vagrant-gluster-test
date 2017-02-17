@@ -1,0 +1,20 @@
+---
+  # file: setup ansible tower user
+  - name: create ansible_user
+    command: useradd -m {{ ansible_user }} creates=/home/{{ ansible_user }}
+
+  - name: set user password
+    shell: usermod -p $(echo '{{ ansible_pass }}' | openssl passwd -1 -stdin) {{ ansible_user }}
+
+  - name: authorized key upload
+    authorized_key: user={{ ansible_user }}
+      key="{{ lookup('file', 'mypublickey.pub') }}"
+      path='/home/{{ ansible_user }}/.ssh/authorized_keys'
+      manage_dir=yes
+
+  - name: update sudoers file and validate
+    lineinfile: "dest=/etc/sudoers
+      insertafter=EOF
+      line='{{ ansible_user }} ALL=(ALL) NOPASSWD: ALL'
+      regexp='{{ ansible_user }} ALL=(ALL) NOPASSWD: ALL'
+      state=present"

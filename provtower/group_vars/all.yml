@@ -1,0 +1,10 @@
+# these variables override all others
+
+# ansible tower vars
+ansible_user: ansuser
+ansible_pass: anspass
+
+# timezone and ntp servers
+# Change to suit you situation/location
+timezone: Europe/Amsterdam
+ntp_server: [0.nl.pool.ntp.org, 1.nl.pool.ntp.org]

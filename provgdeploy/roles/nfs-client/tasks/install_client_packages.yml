@@ -1,4 +1,10 @@
 ---
+
+  - name: install repositories and prereqs
+    yum: name={{ item }} state=present
+    with_items:
+      - epel-release
+
   - name: installing nfs client packages
     yum: name={{ item }} state=latest
     with_items:
