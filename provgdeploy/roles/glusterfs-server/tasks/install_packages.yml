@@ -1,6 +1,12 @@
 ---
 # Task to install GlusterFS packages
 
+  - name: install repositories and prereqs
+    yum: name={{ item }} state=present
+    with_items:
+      - epel-release
+      - centos-release-gluster{{ gluster_package_version }} 
+
   - name: install and start glusterfs server prereq packages
     yum: name={{ item }} state=latest
     with_items:

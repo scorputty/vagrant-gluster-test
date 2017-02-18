@@ -43,3 +43,10 @@ gdeploy ganasha is now working! (not yet pretty...)
   tags: fix-ganesha
 ```
 Yes still very messy but it works...
+
+## Added provision via Ansible Tower.
+To test provisioning with Ansible Tower you need the official Vagrant image, more info here
+- https://www.ansible.com/tower-trial
+
+I repackaged my Ansible Tower to speedup the process and have some basic configuration done.
+If you did that then you can use this test setup to provision 3 gluster servers, 2 clients and 1 tower server.

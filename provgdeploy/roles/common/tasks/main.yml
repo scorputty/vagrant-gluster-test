@@ -1,9 +1,4 @@
 # file: roles/common/tasks/main.yml
-  - name: install repositories and prereqs
-    yum: name={{ item }} state=present
-    with_items:
-      - epel-release
-      - centos-release-gluster{{ gluster_package_version }}
 
   - name: dump all vars to /root/ansible.allvars
     action: template src=templates/dumpall.j2 dest=/root/ansible.allvars

@@ -1,0 +1,35 @@
+# file: roles/common/tasks/main.yml
+
+  - name: dump all vars to /root/ansible.allvars
+    action: template src=templates/dumpall.j2 dest=/root/ansible.allvars
+    tags: dump-vars
+
+  - name: create ansible_user
+    command: useradd -m {{ ansible_user }} creates=/home/{{ ansible_user }}
+
+  - name: set user password
+    shell: usermod -p $(echo '{{ ansible_pass }}' | openssl passwd -1 -stdin) {{ ansible_user }}
+
+  - name: update sudoers file and validate
+    lineinfile: "dest=/etc/sudoers
+      insertafter=EOF
+      line='{{ ansible_user }} ALL=(ALL) NOPASSWD: ALL'
+      regexp='{{ ansible_user }} ALL=(ALL) NOPASSWD: ALL'
+      state=present"
+
+  # Example action to restart network service for interface eth0
+  - name: restart netowrk
+    service:
+      name: network
+      state: restarted
+
+  #  Enable SELinux
+  # - selinux:
+  #     policy: targeted
+  #     state: enforcing
+  #   tags: selinux-enforcing
+
+  # Disable SELinux
+  # - selinux:
+  #     state: disabled
+  #   tags: selinux-disabled
