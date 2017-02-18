@@ -1,0 +1,19 @@
+---
+# Task to install packages
+
+  - name: install repositories and prereqs
+    yum: name={{ item }} state=present
+    with_items:
+      - epel-release
+
+  - name: install extra packages
+    yum: name={{ item }} state=latest
+    with_items:
+      - python-pip
+      - sysstat
+      - htop
+
+  - name: install pip modules
+    pip:
+      state: latest
+      name: ansible-tower-cli

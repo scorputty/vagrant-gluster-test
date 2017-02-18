@@ -2,7 +2,7 @@
 
 # ansible tower vars
 ansible_user: ansuser
-ansible_pass: anspass
+ansible_pass: anspass1
 
 # SSH keys
 known_hosts_file: "/home/{{ ansible_user }}/.ssh/known_hosts"
