@@ -1,9 +1,10 @@
 ---
 
-  - name: upload gdeploy config files
-    synchronize:
+  - name: copy GDeploy config files
+    copy:
       src: "{{ item }}"
-      dest: "/root/"
+      dest: "/root/{{ item }}"
+    become: true
     with_items:
       - sample.conf
       - setup-ganesha.conf
