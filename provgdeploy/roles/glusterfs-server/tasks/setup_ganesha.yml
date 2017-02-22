@@ -1,10 +1,18 @@
 ---
+<<<<<<< HEAD
 
   - name: copy GDeploy config files
     copy:
       src: "{{ item }}"
       dest: "/root/{{ item }}"
     become: true
+=======
+  - name: Copy GDeploy config files
+    copy:
+      src: "{{ item }}"
+      dest: "/root/{{ item }}"
+    become: True
+>>>>>>> master
     with_items:
       - sample.conf
       - setup-ganesha.conf

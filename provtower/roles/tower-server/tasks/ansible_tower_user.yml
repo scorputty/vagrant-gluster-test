@@ -1,22 +1,22 @@
 ---
 
-  - stat: path=/home/{{ ansible_user }}/.ssh/id_rsa
+  - stat: path=/home/{{ ans_user }}/.ssh/id_rsa
     register: ssh_key
 
-  - name: setting up key for {{ ansible_user }}
-    become_user: "{{ ansible_user }}"
-    command: ssh-keygen -b 2048 -t rsa -f /home/{{ ansible_user }}/.ssh/id_rsa -q -N ""
+  - name: setting up key for {{ ans_user }}
+    become_user: "{{ ans_user }}"
+    command: ssh-keygen -b 2048 -t rsa -f /home/{{ ans_user }}/.ssh/id_rsa -q -N ""
     when: ssh_key.stat.exists == false
 
   - name: fetch all public ssh keys
-    command: cat /home/{{ ansible_user }}/.ssh/id_rsa.pub
+    command: cat /home/{{ ans_user }}/.ssh/id_rsa.pub
     register: ssh_keys
 
   - name: check keys
     debug: msg="{{ ssh_keys.stdout }}"
 
   - name: deploy keys on all servers
-    authorized_key: user="{{ ansible_user }}" key="{{ item[0] }}"
+    authorized_key: user="{{ ans_user }}" key="{{ item[0] }}"
     delegate_to: "{{ item[1] }}"
     with_nested:
       - "{{ ssh_keys.stdout }}"

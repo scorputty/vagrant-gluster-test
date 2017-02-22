@@ -4,17 +4,17 @@
     action: template src=templates/dumpall.j2 dest=/root/ansible.allvars
     tags: dump-vars
 
-  - name: create ansible_user
-    command: useradd -m {{ ansible_user }} creates=/home/{{ ansible_user }}
+  - name: create ans_user
+    command: useradd -m {{ ans_user }} creates=/home/{{ ans_user }}
 
   - name: set user password
-    shell: usermod -p $(echo '{{ ansible_pass }}' | openssl passwd -1 -stdin) {{ ansible_user }}
+    shell: usermod -p $(echo '{{ ans_pass }}' | openssl passwd -1 -stdin) {{ ans_user }}
 
   - name: update sudoers file and validate
     lineinfile: "dest=/etc/sudoers
       insertafter=EOF
-      line='{{ ansible_user }} ALL=(ALL) NOPASSWD: ALL'
-      regexp='{{ ansible_user }} ALL=(ALL) NOPASSWD: ALL'
+      line='{{ ans_user }} ALL=(ALL) NOPASSWD: ALL'
+      regexp='{{ ans_user }} ALL=(ALL) NOPASSWD: ALL'
       state=present"
 
   # Example action to restart network service for interface eth0
