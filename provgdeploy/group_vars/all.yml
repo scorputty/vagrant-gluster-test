@@ -1,8 +1,8 @@
 # these variables override all others
 
 # ansible tower vars
-ansible_user: ansuser
-ansible_pass: anspass
+ans_user: ansuser
+ans_pass: anspass
 
 # timezone and ntp servers
 # Change to suit you situation/location

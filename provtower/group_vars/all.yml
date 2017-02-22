@@ -1,11 +1,11 @@
 # these variables override all others
 
 # ansible tower vars
-ansible_user: ansuser
-ansible_pass: anspass1
+ans_user: ansuser
+ans_pass: anspass1
 
 # SSH keys
-known_hosts_file: "/home/{{ ansible_user }}/.ssh/known_hosts"
+known_hosts_file: "/home/{{ ans_user }}/.ssh/known_hosts"
 
 # timezone and ntp servers
 # Change to suit you situation/location
