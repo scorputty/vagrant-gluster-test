@@ -6,19 +6,19 @@
 # add Ansible Tower or skip it by setting: TOWERSERVER = 0
 # Download the following plugins:
 # hostmanager
-# linked_clone (does not work when tower is added)
+# vagrant plugin install vagrant-hostmanager
 
-PROVTYPE = "provtower"
+PROVTYPE = "provheketi"
 GLUSTERSERVER = 3
-GLUSTERCLIENT = 2
-TOWERSERVER = 1
+GLUSTERCLIENT = 0
+TOWERSERVER = 0
 
 Vagrant.configure("2") do |config|
   config.ssh.insert_key = false
   config.hostmanager.enabled = true
 
   config.vm.provider "virtualbox" do |v|
-    v.linked_clone = false
+    v.linked_clone = true
   end
 
 
@@ -83,6 +83,7 @@ Vagrant.configure("2") do |config|
   (1..TOWERSERVER).each do |i|
     config.vm.define "ansible-tower" do |node|
       node.vm.box = "ansible-tower-repackage"
+      v.linked_clone = false
       node.vm.hostname = "ansible-tower"
       node.vm.network :private_network, ip: "10.42.0.%d" % (41 + i )
       node.vm.provider "virtualbox" do |vb|
